@@ -28,12 +28,12 @@ import (
 	"compress/gzip"
 	"compress/zlib"
 	"encoding/base64"
-	"encoding/xml"
 	"errors"
 	"io"
 	"io/ioutil"
 	"strconv"
 	"strings"
+	"github.com/KeKsBoTer/go-tmx/tmx/encoding/xml"
 )
 
 const (
@@ -356,6 +356,12 @@ func Read(r io.Reader) (*Map, error) {
 	if err := d.Decode(m); err != nil {
 		return nil, err
 	}
+	// Default values
+	for i := range m.Layers {
+		m.Layers[i].Visible = true
+		m.Layers[i].Opacity = 1
+	}
+	d.Decode(m)
 
 	err := m.decodeLayers()
 	if err != nil {
