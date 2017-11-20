@@ -103,8 +103,8 @@ type Tile struct {
 
 type Layer struct {
 	Name         string     `xml:"name,attr"`
-	Opacity      float32    `xml:"opacity,attr"`
-	Visible      bool       `xml:"visible,attr"`
+	Opacity      float32    `xml:"opacity,attr" default:"1"`
+	Visible      bool       `xml:"visible,attr" default:"true"`
 	Properties   []Property `xml:"properties>property"`
 	Data         Data       `xml:"data"`
 	DecodedTiles []*DecodedTile // This is the attiribute you'd like to use, not Data. Tile entry at (x,y) is obtained using l.DecodedTiles[y*map.Width+x].
@@ -356,13 +356,6 @@ func Read(r io.Reader) (*Map, error) {
 	if err := d.Decode(m); err != nil {
 		return nil, err
 	}
-	// Default values
-	for i := range m.Layers {
-		m.Layers[i].Visible = true
-		m.Layers[i].Opacity = 1
-	}
-	d.Decode(m)
-
 	err := m.decodeLayers()
 	if err != nil {
 		return nil, err
