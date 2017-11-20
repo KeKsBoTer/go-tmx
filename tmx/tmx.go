@@ -63,6 +63,7 @@ type ID uint32
 type Map struct {
 	Version      string        `xml:"title,attr"`
 	Orientation  string        `xml:"orientation,attr"`
+	RenderOrder  string        `xml:"renderorder,attr"`
 	Width        int           `xml:"width,attr"`
 	Height       int           `xml:"height,attr"`
 	TileWidth    int           `xml:"tilewidth,attr"`
@@ -101,11 +102,11 @@ type Tile struct {
 }
 
 type Layer struct {
-	Name         string         `xml:"name,attr"`
-	Opacity      float32        `xml:"opacity,attr"`
-	Visible      bool           `xml:"visible,attr"`
-	Properties   []Property     `xml:"properties>property"`
-	Data         Data           `xml:"data"`
+	Name         string     `xml:"name,attr"`
+	Opacity      float32    `xml:"opacity,attr"`
+	Visible      bool       `xml:"visible,attr"`
+	Properties   []Property `xml:"properties>property"`
+	Data         Data       `xml:"data"`
 	DecodedTiles []*DecodedTile // This is the attiribute you'd like to use, not Data. Tile entry at (x,y) is obtained using l.DecodedTiles[y*map.Width+x].
 	Tileset      *Tileset       // This is only set when the layer uses a single tileset and NilLayer is false.
 	Empty        bool           // Set when all entries of the layer are NilTile
@@ -130,10 +131,10 @@ type ObjectGroup struct {
 type Object struct {
 	Name       string     `xml:"name,attr"`
 	Type       string     `xml:"type,attr"`
-	X          int        `xml:"x,attr"`
-	Y          int        `xml:"y,attr"`
-	Width      int        `xml:"width,attr"`
-	Height     int        `xml:"height,attr"`
+	X          float64    `xml:"x,attr"`
+	Y          float64    `xml:"y,attr"`
+	Width      float64    `xml:"width,attr"`
+	Height     float64    `xml:"height,attr"`
 	GID        int        `xml:"gid,attr"`
 	Visible    bool       `xml:"visible,attr"`
 	Polygons   []Polygon  `xml:"polygon"`
