@@ -19,18 +19,18 @@ type typeInfo struct {
 
 // fieldInfo holds details for the xml representation of a single field.
 type fieldInfo struct {
-	idx     []int
-	name    string
-	xmlns   string
+	idx          []int
+	name         string
+	xmlns        string
 	defaultValue string
-	flags   fieldFlags
-	parents []string
+	flags        fieldFlags
+	parents      []string
 }
 
 type fieldFlags int
 
 const (
-	fElement fieldFlags = 1 << iota
+	fElement  fieldFlags = 1 << iota
 	fAttr
 	fCDATA
 	fCharData
@@ -267,7 +267,7 @@ func min(a, b int) int {
 func addFieldInfo(typ reflect.Type, tinfo *typeInfo, newf *fieldInfo) error {
 	var conflicts []int
 Loop:
-	// First, figure all conflicts. Most working code will have none.
+// First, figure all conflicts. Most working code will have none.
 	for i := range tinfo.fields {
 		oldf := &tinfo.fields[i]
 		if oldf.flags&fMode != newf.flags&fMode {

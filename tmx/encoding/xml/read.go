@@ -288,6 +288,10 @@ func (p *Decoder) unmarshalAttr(val reflect.Value, attr Attr) error {
 		return nil
 	}
 
+	/*
+	if attr.Name.Local == "opacity" || attr.Name.Local == "visible"{
+		fmt.Println(attr.Value)
+	}*/
 	return copyValue(val, []byte(attr.Value))
 }
 
@@ -441,8 +445,8 @@ func (p *Decoder) unmarshal(val reflect.Value, start *StartElement) error {
 			any := -1
 			for i := range tinfo.fields {
 				finfo := &tinfo.fields[i]
-				if finfo.defaultValue != "" {
-					copyValue(finfo.value(sv), []byte(finfo.defaultValue))
+				if len(finfo.defaultValue) > 0 {
+					 copyValue(finfo.value(sv), []byte(finfo.defaultValue))
 				}
 				switch finfo.flags & fMode {
 				case fAttr:

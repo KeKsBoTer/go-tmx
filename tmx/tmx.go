@@ -71,6 +71,7 @@ type Map struct {
 	Properties   []Property    `xml:"properties>property"`
 	Tilesets     []Tileset     `xml:"tileset"`
 	Layers       []Layer       `xml:"layer"`
+	ImageLayers  []ImageLayer  `xml:"imagelayer"`
 	ObjectGroups []ObjectGroup `xml:"objectgroup"`
 }
 
@@ -103,13 +104,22 @@ type Tile struct {
 
 type Layer struct {
 	Name         string     `xml:"name,attr"`
-	Opacity      float32    `xml:"opacity,attr" default:"1"`
-	Visible      bool       `xml:"visible,attr" default:"true"`
+	Visible      bool       `xml:"visible,attr" default:"1"`
+	Opacity      float32    `xml:"opacity,attr" default:"1.0"`
 	Properties   []Property `xml:"properties>property"`
 	Data         Data       `xml:"data"`
 	DecodedTiles []*DecodedTile // This is the attiribute you'd like to use, not Data. Tile entry at (x,y) is obtained using l.DecodedTiles[y*map.Width+x].
 	Tileset      *Tileset       // This is only set when the layer uses a single tileset and NilLayer is false.
 	Empty        bool           // Set when all entries of the layer are NilTile
+}
+
+type ImageLayer struct {
+	Name    string  `xml:"name,attr"`
+	Image   Image   `xml:"image"`
+	OffsetX float64 `xml:"offsetx,attr"`
+	OffsetY float64 `xml:"offsety,attr"`
+	Visible bool    `xml:"visible,attr" default:"1"`
+	Opacity float32 `xml:"opacity,attr" default:"1.0"`
 }
 
 type Data struct {
